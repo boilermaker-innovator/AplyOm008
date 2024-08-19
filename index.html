@@ -1,0 +1,232 @@
+import React, { useState } from 'react';
+
+const JobTeaser = () => {
+  const [activeTab, setActiveTab] = useState('overview');
+  const [showTabs, setShowTabs] = useState(false);
+
+  const jobData = {
+    title: "Crushing or Rotating Specialists - Fitters & Boilermakers",
+    company: "Olmec",
+    location: "Kalgoorlie area, Western Australia",
+    type: "Trade Based Roles",
+    overview: "Join our great young team at Olmec for exciting opportunities in the Kalgoorlie area. We're seeking skilled Boilermakers and Mechanical Fitters with experience in Crushing or Rotating Maintenance to be part of our specialist teams.",
+    requirements: [
+      "Australian Recognised or New Zealand Trade Qualification - Boilermakers & Fitters",
+      "Working at Heights certification",
+      "Confined Space certification",
+      "Construction White Card",
+      "Australian work rights",
+      "Ability to pass a pre-employment medical and ongoing drug & alcohol screens"
+    ],
+    experience: [
+      "Knowledge and proven experience with Cone, Jaw and Gyratory Crushers",
+      "Experience with Concave, Hydroset and eccentric replacements",
+      "Familiarity with Crushing lubrication systems",
+      "Experience with Driveline Replacements, including conveyor motors and gearboxes",
+      "Experience using Heat Inductors for bearing and coupling replacements"
+    ],
+    benefits: [
+      "Competitive rates, plus superannuation and loyalty bonus",
+      "Ongoing work with Australia's biggest mining producers",
+      "Flexibility to self-manage your work schedule",
+      "Training opportunities, including High Risk tickets",
+      "Career Progression possibilities",
+      "FIFO/DIDO options from Perth and various WA locations"
+    ]
+  };
+
+  const styles = {
+    container: {
+      maxWidth: '600px',
+      margin: '0 auto',
+      backgroundColor: 'white',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      borderRadius: '8px',
+      overflow: 'hidden',
+      border: '4px solid #3b82f6'
+    },
+    header: {
+      padding: '24px',
+      backgroundColor: '#e6f2ff'
+    },
+    title: {
+      fontSize: '24px',
+      fontWeight: 'bold',
+      color: '#1e40af',
+      marginBottom: '8px'
+    },
+    subtitle: {
+      color: '#3b82f6',
+      marginBottom: '4px'
+    },
+    checkboxLabel: {
+      display: 'flex',
+      alignItems: 'center',
+      cursor: 'pointer',
+      marginTop: '12px'
+    },
+    checkbox: {
+      marginRight: '8px'
+    },
+    tabContainer: {
+      display: 'flex',
+      borderBottom: '1px solid #e5e7eb'
+    },
+    tab: {
+      padding: '12px 16px',
+      fontWeight: '600',
+      cursor: 'pointer',
+      backgroundColor: 'transparent',
+      border: 'none'
+    },
+    activeTab: {
+      color: '#3b82f6',
+      borderBottom: '2px solid #3b82f6'
+    },
+    content: {
+      padding: '24px'
+    },
+    sectionTitle: {
+      fontSize: '18px',
+      fontWeight: 'bold',
+      marginBottom: '12px'
+    },
+    list: {
+      paddingLeft: '20px',
+      marginBottom: '16px'
+    },
+    applyButton: {
+      display: 'block',
+      width: '100%',
+      padding: '12px',
+      backgroundColor: '#3b82f6',
+      color: 'white',
+      textAlign: 'center',
+      textDecoration: 'none',
+      borderRadius: '4px',
+      fontWeight: 'bold',
+      marginTop: '16px'
+    }
+  };
+
+  const Tab = ({ label, isActive, onClick }) => (
+    <button
+      style={{...styles.tab, ...(isActive ? styles.activeTab : {})}}
+      onClick={onClick}
+    >
+      {label}
+    </button>
+  );
+
+  const renderContent = () => {
+    if (!showTabs) {
+      return (
+        <>
+          <div>
+            <h3 style={styles.sectionTitle}>Overview</h3>
+            <p>{jobData.overview}</p>
+          </div>
+          <div>
+            <h3 style={styles.sectionTitle}>Requirements</h3>
+            <ul style={styles.list}>
+              {jobData.requirements.map((req, index) => (
+                <li key={index}>{req}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 style={styles.sectionTitle}>Experience</h3>
+            <ul style={styles.list}>
+              {jobData.experience.map((exp, index) => (
+                <li key={index}>{exp}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 style={styles.sectionTitle}>Benefits</h3>
+            <ul style={styles.list}>
+              {jobData.benefits.map((benefit, index) => (
+                <li key={index}>{benefit}</li>
+              ))}
+            </ul>
+          </div>
+        </>
+      );
+    } else {
+      switch (activeTab) {
+        case 'overview':
+          return <p>{jobData.overview}</p>;
+        case 'requirements':
+          return (
+            <ul style={styles.list}>
+              {jobData.requirements.map((req, index) => (
+                <li key={index}>{req}</li>
+              ))}
+            </ul>
+          );
+        case 'experience':
+          return (
+            <ul style={styles.list}>
+              {jobData.experience.map((exp, index) => (
+                <li key={index}>{exp}</li>
+              ))}
+            </ul>
+          );
+        case 'benefits':
+          return (
+            <ul style={styles.list}>
+              {jobData.benefits.map((benefit, index) => (
+                <li key={index}>{benefit}</li>
+              ))}
+            </ul>
+          );
+        default:
+          return null;
+      }
+    }
+  };
+
+  return (
+    <div style={styles.container}>
+      <div style={styles.header}>
+        <h2 style={styles.title}>{jobData.title}</h2>
+        <p style={styles.subtitle}>{jobData.company} - {jobData.location}</p>
+        <p style={styles.subtitle}>{jobData.type}</p>
+        <label style={styles.checkboxLabel}>
+          <input
+            type="checkbox"
+            checked={showTabs}
+            onChange={() => setShowTabs(!showTabs)}
+            style={styles.checkbox}
+          />
+          <span>Show Tabs</span>
+        </label>
+      </div>
+      
+      {showTabs && (
+        <div style={styles.tabContainer}>
+          {['overview', 'requirements', 'experience', 'benefits'].map((tab) => (
+            <Tab
+              key={tab}
+              label={tab.charAt(0).toUpperCase() + tab.slice(1)}
+              isActive={activeTab === tab}
+              onClick={() => setActiveTab(tab)}
+            />
+          ))}
+        </div>
+      )}
+      
+      <div style={styles.content}>
+        {renderContent()}
+      </div>
+      
+      <div style={styles.header}>
+        <a href="https://www.ohlmec.com.au/careers/" target="_blank" rel="noopener noreferrer" style={styles.applyButton}>
+          Apply Now
+        </a>
+      </div>
+    </div>
+  );
+};
+
+export default JobTeaser;
